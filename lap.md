@@ -7,23 +7,33 @@ SSL là một giao thức bảo mật dùng để mã hóa dữ liệu truyền 
 
 * Có ba cách xác thực SSL
 
-    * 1:Domain Validation (DV) – Xác thực qua quyền sở hữu tên miền.
+    * 1. Domain Validation (DV) – Xác thực qua quyền sở hữu tên miền.
 
-    * 2:Organization Validation (OV) – Xác thực tên miền và thông tin doanh nghiệp.
+    * 2. Xác thực qua email.
 
-    * 3:Extended Validation (EV) – Xác thực cao nhất, xác minh kỹ lưỡng doanh nghiệp.
+    * 3. Xác thực qua bản ghi DNS.
+
+    * 4. Xác thực qua HTTP(S)
+
+    * 5. Organization Validation (OV) – Xác thực tên miền và thông tin doanh nghiệp.
+
+    * 6. Extended Validation (EV) – Xác thực cao nhất, xác minh kỹ lưỡng doanh nghiệp.
 
 ## CSR file dùng để làm gì trong quá trình tạo SSL?
 
-* CSR là một đoạn văn bản yêu cầu chứa thông tin đã được mã hóa để xin chứng thực số CA cấp SSL
+* CSR là một đoạn văn bản yêu cầu chứa thông tin đã được mã hóa được gửi đến nhà cung cấp dịch vụ SSL để xác nhận.
 
+## Gen file CSR và cách gửi yêu cầu xác thực
+```
+    openssl req -new -newkey rsa:2048 -nodes -keyout tech.training.vietnix.tech.key -out tech.training.vietnix.tech.csr
+```
 ## File PEM là gì?
 
 * File PEM (Privacy Enhanced Mail) là một định dạng tệp được sử dụng để lưu trữ và truyền tải các chứng chỉ, khóa riêng tư, và các dữ liệu bảo mật khác trong các hệ thống mã hóa.
 
 ## Private key ssl là gì ?
 
-* Private Key SSL đóng vai trò là chìa khóa để máy chủ có thể giải mã được thông tin từ client để bắt đầu một phiên kết nối SSL.
+* Private Key SSL đóng vai trò là chìa khóa để máy chủ có thể giải mã được thông tin từ client và xác thực để bắt đầu một phiên kết nối SSL.
 
 ## PFX file là gì ? Cách chuyển từ file crt file sang PFX file.
 
@@ -85,7 +95,7 @@ SSL là một giao thức bảo mật dùng để mã hóa dữ liệu truyền 
 
 ## Subdomain là gì?
 
-* Là phần mở rộng của tên miền chính.
+* Là tên miền phụ phần mở rộng của tên miền chính.
 
 ## Virtual host là gì?
 
@@ -94,12 +104,12 @@ SSL là một giao thức bảo mật dùng để mã hóa dữ liệu truyền 
 ## Mail Server
 
 * MX Record là gì?
-    * MX (Mail Exchange) Record là bản ghi DNS chỉ định máy chủ chịu trách nhiệm nhận email cho domain.
+    * MX (Mail Exchange) Record là bản ghi DNS chỉ định server nào quản lý các dịch vụ Email của tên miền đó.
 
 * DKIM, SPF, PTR là gì
-    * DKIM (DomainKeys Identified Mail) – Gắn chữ ký số vào email giúp xác thực nguồn gốc và nội dung.
+    * DKIM (DomainKeys Identified Mail) – Sử dụng chữ ký số để xác thực rằng nội dung email không bị chỉnh sửa, và được gửi từ domain hợp lệ.
 
-    * SPF (Sender Policy Framework) – Xác minh IP máy chủ được phép gửi email thay mặt domain.
+    * SPF (Sender Policy Framework) – Dùng IP để xác minh máy chủ được phép gửi email thay mặt domain.
 
     * PTR (Reverse DNS) – Bản ghi ánh xạ IP ngược về hostname, giúp xác thực server gửi email.
 
@@ -109,38 +119,44 @@ SSL là một giao thức bảo mật dùng để mã hóa dữ liệu truyền 
 
 ## Các loại recored DNS
 
-* A: Trỏ domain đến IPv4.
+* CNAME Record: Là một bản ghi tên quy chuẩn (Canonical Name Record). Đây là một dạng bản ghi tài nguyên trong hệ thống tên miền.
 
-* AAAA: Trỏ domain đến IPv6.
+* A Record: Dùng để trỏ tên miền website tới một địa chỉ IPv4 cụ thể. Đây được xem là bản ghi DNS đơn giản nhất.
 
-* CNAME: Alias cho domain khác.
+* MX Record: Bản ghi này bạn có thể sử dụng để trỏ tên miền đến mail server. MX Record chỉ định server nào quản lý các dịch vụ Email của tên miền đó.
 
-* MX: Mail server.
+* AAAA Record: Dùng để trỏ tên miền đến địa chỉ IPv6 và cho phép thêm host mới, TTL và IPv6.
 
-* NS: Chỉ định name server.
+* TXT Record: Dùng để thêm giá trị TXT, Host mới, TTL và Point To để chứa các thông tin định dạng văn bản domain.
 
-* TXT: Lưu thông tin tùy ý (SPF, DKIM...).
+* SRV Record: Đây là bản ghi DNS đặc biệt, dùng để xác định chính xác dịch vụ nào đang chạy Port nào. Và thông qua bản ghi này bạn có thể thêm Priority, Port, Weight, TTL, Point to Point.
 
-* PTR: Reverse DNS.
+* NS Record: Bản ghi này có thể chỉ định Name Server cho từng tên miền phụ và bên cạnh đó có thể tạo tên Name Server, TTL hay host mới.
 
-* SRV: Dịch vụ cụ thể.
+* PTR (Reverse DNS) – Bản ghi ánh xạ IP ngược về hostname, giúp xác thực server gửi email.
 
 ## Nguyên tắc làm việc của DNS
 
-* Người dùng nhập domain vào trình duyệt.
+* DNS hoạt động theo mô hình cây phân cấp.
 
-* Trình duyệt truy vấn hệ thống DNS.
+* Sẽ dịch tên miền từ phải sang trái.
 
-* DNS phân giải domain thành IP.
+* DNS có hai vai trò chính:
 
-* Trình duyệt dùng IP để kết nối đến server.
+    * Một là biên dịch các trang web.
+    * Hai là trả lời các DNS khác khi truy vấn đúng tên miền mà bản thân nó quản lý.
 
 ## Cách phân giải địa chỉ của DNS
 
-* DNS Resolver sẽ gửi yêu cầu đến máy chủ DNS
-    * Root server sẽ nhận thông tin rồi chuyển cho TLD Server
-    * TLD server sẽ nhận thông tin rồi chuyển lại cho Authoritative Name Server
-    * Ở Authoritative Name Server sẽ trả bản ghi địa chỉ IP thật của tên miền
+* Người dùng nhập domain vào trình duyệt.
+
+* Máy chủ DNS cục bộ sẽ kiểm tra cơ sở dữ liệu của mình xem có chứa địa chỉ IP của website hay không. Nếu có, sẽ trả về địa chỉ IP cho máy tính của người dùng.
+
+* Nếu máy chủ DNS cục bộ không có địa chỉ IP của website, nó sẽ hỏi máy chủ DNS gốc. Máy chủ DNS gốc sẽ trả về địa chỉ IP của máy chủ DNS cấp cao nhất cho website.
+
+* Máy chủ DNS cấp cao nhất sẽ trả về địa chỉ IP của máy chủ DNS quản lý website. Máy chủ DNS quản lý sẽ trả về địa chỉ IP của trang web cho máy chủ DNS cục bộ.
+
+* Cuối cùng, máy chủ DNS cục bộ sẽ trả về địa chỉ IP của trang web cho máy tính của người dùng. Máy tính của người dùng sẽ sử dụng địa chỉ IP này để kết nối với website.
 
 # LAB 2
 
