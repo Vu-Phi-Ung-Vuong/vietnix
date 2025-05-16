@@ -7,17 +7,11 @@ SSL là một giao thức bảo mật dùng để mã hóa dữ liệu truyền 
 
 * Có ba cách xác thực SSL
 
-    * 1. Domain Validation (DV) – Xác thực qua quyền sở hữu tên miền.
+    * 1. Domain Validation (DV) xác thực domain.
 
     * 2. Xác thực qua email.
 
     * 3. Xác thực qua bản ghi DNS.
-
-    * 4. Xác thực qua HTTP(S)
-
-    * 5. Organization Validation (OV) – Xác thực tên miền và thông tin doanh nghiệp.
-
-    * 6. Extended Validation (EV) – Xác thực cao nhất, xác minh kỹ lưỡng doanh nghiệp.
 
 ## CSR file dùng để làm gì trong quá trình tạo SSL?
 
